@@ -7,6 +7,7 @@ from resume_agent_automation.config.settings import settings
 
 
 class TestDataManager:
+    __testp__=False
     def __init__(self, approved_inputs_dir: str | Path | None = None):
         self.approved_inputs_dir = Path(approved_inputs_dir or settings.APPROVED_INPUTS_DIR)
         self.approved_inputs_dir.mkdir(parents=True, exist_ok=True)

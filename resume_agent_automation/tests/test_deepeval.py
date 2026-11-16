@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from integrations.deepeval_judge import build_ollama_judge, evaluate_agent_response
+from resume_agent_automation.integrations.deepeval_judge import build_ollama_judge, evaluate_agent_response
 
 
 @pytest.mark.parametrize(

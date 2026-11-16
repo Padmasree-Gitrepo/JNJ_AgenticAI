@@ -62,7 +62,8 @@ def evaluate_agent_response(
     test_case = LLMTestCase(
         input=input_text,
         actual_output=actual_output,
-        context=reference_context,
+        context=[reference_context],
+        retrieval_context=[reference_context],
     )
 
     answer_metric = AnswerRelevancyMetric(model=model, threshold=settings.DEEP_EVAL_THRESHOLD, include_reason=True, async_mode=False)

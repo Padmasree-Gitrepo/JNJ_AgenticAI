@@ -22,9 +22,24 @@ class ResumeAgentPage(BasePage):
             raise RuntimeError("APP_USERNAME and APP_PASSWORD must be set in the environment or .env file before running live UI tests.")
 
         self.goto()
-        self.page.get_by_role("button", name="Sign In").click()
-        self.page.get_by_placeholder("Username").first.fill(username)
-        self.page.get_by_placeholder("Password").first.fill(password)
+
+        sign_in_entry = self.page.get_by_role("button", name="Sign In", exact=True)
+        sign_in_entry.wait_for(state="visible", timeout=settings.PLAYWRIGHT_TIMEOUT)
+        sign_in_entry.click()
+        self.page.wait_for_url("**/login**", wait_until="domcontentloaded", timeout=settings.PLAYWRIGHT_TIMEOUT)
+
+        username_field = self.page.locator('input[name="username"]:visible')
+        username_field.wait_for(state="visible", timeout=settings.PLAYWRIGHT_TIMEOUT)
+        if username_field.count() != 1:
+            raise RuntimeError(f"Expected one visible username field, found {username_field.count()}.")
+        username_field.fill(username)
+
+        password_field = self.page.locator('input[placeholder="Password"]:visible')
+        password_field.wait_for(state="visible", timeout=settings.PLAYWRIGHT_TIMEOUT)
+        if password_field.count() != 1:
+            raise RuntimeError(f"Expected one visible password field, found {password_field.count()}.")
+        password_field.fill(password)
+
         self.page.get_by_role("button", name="Sign in", exact=False).click()
         self.page.wait_for_load_state("networkidle")
 
